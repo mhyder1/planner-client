@@ -1,69 +1,82 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import "./App.css";
-import About from "./Components/About/About";
+
 import Nav from "./Components/Nav/Nav";
-import CalendarView from "./Components/Calendar/Calendar";
-import AddEvent from "./Components/AddEvent/AddEvent"
-import Event from "./Components/Event/Event";
-import Header from "./Components/Header/Header"
-import EventsList from "./Components/EventsList/EventsList";
+import About from "./Components/About/About";
 import Login from "./Components/Login/Login";
-import ProfileContactInfo from "./Components/ProfileContactInfo/ProfileContactInfo";
+import Register from "./Components/Register/Register";
+import Header from "./Components/Header/Header";
+import Features from "./Components/Features/Features";
+import Footer from "./Components/Footer/Footer";
 import ProfilePic from "./Components/ProfilePic/ProfilePic";
-import Register from "./Components/Register/Register"
+import ProfileContactInfo from "./Components/ProfileContactInfo/ProfileContactInfo";
+import EventsList from "./Components/EventsList/EventsList";
+import TeamEventsList from "./Components/TeamEventList/TeamEventList"
+import Event from "./Components/Event/Event";
 import TeamList from "./Components/TeamList/TeamList";
 import TeamMember from "./Components/TeamMember/TeamMember";
-import Footers from "./Components/Footer/Footers";
-import Features from "./Components/Features/Features";
-import DummyStore from "./DummyStore/DummyStore";
-// import Dashboard from "./Components/Dashboard/Dashboard";
+import CalendarView from "./Components/Calendar/Calendar";
+import AddEvent from "./Components/AddEvent/AddEvent";
+import TokenService from "./Services/TokenService";
+import AddTeamMember from "./Components/AddTeamMember/AddTeamMember"
+import EditEvent from "./Components/EditEvent/EditEvent";
 
 
-
-
-
-
-class App extends React.Component {
-
+export default class App extends React.Component {
   state = {
     isLoggedIn: false,
-    users: [
-      {
-        id: [],
-        email: [],
-        first_name: [],
-        last_name: [],
-        password: [],
-        date_created: [],
-        profile_image: [],
-        phone_number: [],
-      }
+    events: [],
+    user: { user_id: "" },
+    teams: [],
+    teamMembers: [],
+  };
 
-    ],
-    team: [
-      {
-        id: [],
-        email: [],
-        first_name: [],
-        last_name: [],
-        password: [],
-        date_created: [],
-        profile_image: [],
-        phone_number: [],
-        
-      }
+  setUser = (user) => {
+    this.setState({
+      user: {
+        user_id: user.id,
+        email: user.email,
+        firstName: user.first_name,
+      },
+    });
+  };
 
-    ],
-    
+  createTeam = (newTeam) => {
+    this.setState({
+      teams: newTeam,
+    });
+  };
 
-  }
+  setUserTeams = (teams) => {
+    this.setState({
+      teams: teams,
+    });
+  };
 
-  
-  componentDidMount(){
-  setTimeout(() => this.setState(DummyStore), 600);
-  }
+  createEvent = (event) => {
+    this.setState({
+      events: [...this.state.events, event],
+    });
+  };
 
+  setUserTeams = (teams) => {
+    this.setState({
+      teams: teams,
+    });
+  };
+
+  setUserEvents = (events) => {
+    this.setState({
+      events: events,
+    });
+  };
+
+  setUserTeamMembers = (tmembers) => {
+    this.setState({
+      teamMembers: tmembers,
+    });
+  };
 
   handleLogin = () => {
     this.setState({
@@ -72,20 +85,36 @@ class App extends React.Component {
   };
 
   handleLogout = () => {
+    TokenService.clearAuthToken();
     this.setState({
-      isLoggedIn: false,
-
+      events: [],
+      team: [],
     });
   };
+  updateEvent = (updatedEvent) => {
+    this.setState({
+      events: this.state.events.map((e) =>
+        e.id !== updatedEvent.id ? e : updatedEvent
+      ),
+    });
+  };
+  // Gets events for teams you're a team member of
+  setTeamMemberEvents = (events) => {
+    this.setState({
+      events: [...this.state.events, ...events],
+    });
+  };
+
   render() {
     return (
       <div className="App">
-        <Route path="/"
+        <Route
+          path="/"
           render={(props) => (
             <Nav {...props} {...this.state} handleLogout={this.handleLogout} />
           )}
-
         />
+
         <Route exact path="/" component={Header} />
         <Route exact path="/about" component={About} />
         <Route
@@ -95,47 +124,91 @@ class App extends React.Component {
             <Login {...props} handleLogin={this.handleLogin} />
           )}
         />
+
         <Route exact path="/register" component={Register} />
         <main>
           <section className="main-dashboard">
-            <Route exact path="/dashboard" component={ProfileContactInfo} />
             <Route exact path="/dashboard" component={ProfilePic} />
-            {/* <Route exact path="/dashboard" component={Dashboard}/> */}
+            <Route
+              exact
+              path="/dashboard"
+              render={(props) => (
+                <ProfileContactInfo
+                  {...props}
+                  {...this.state}
+                  setUserEvents={this.setUserEvents}
+                  setUser={this.setUser}
+                  setUserTeams={this.setUserTeams}
+                  setTeamMemberEvents={this.setTeamMemberEvents}
+                  setUserTeamMembers={this.setUserTeamMembers}
+                />
+              )}
+            />
           </section>
           <section className="main-events">
-            
             <Route
               exact
               path={["/events", "/events/:id", "/add-event"]}
-              component={EventsList}
+              render={(props) => <EventsList {...props} {...this.state} />}
             />
-            <Route exact path={["/events", "/events/:id"]} component={Event} />
-            <Route exact path={["/events", "/events/:id"]} component={Event} />
+            <Route
+              exact
+              path={["/events", "/events/:id"]}
+              render={(props) => <Event {...props} {...this.state} />}
+            />
+            <Route
+              exact
+              path={["/tm-events", "/tm-events/:id"]}
+              render={(props) => <TeamEventsList {...props} {...this.state} />}
+            />
             <Route
               exact
               path="/add-event"
               render={(props) => (
-                <AddEvent {...props} {...this.state} onAddCal={this.handleAddCal }/>
-              )} />
+                <AddEvent
+                  {...this.state}
+                  createEvent={this.createEvent}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/edit-event/:id"
+              render={(props) => (
+                <EditEvent {...props} updateEvent={this.updateEvent} />
+              )}
+            />
           </section>
-            <section className="main-team">
-            <Route exact path={["/teams", "/teams/:id"]} component={TeamList} />
+          <section className="main-team">
+            <Route
+              exact
+              path={["/teams", "/teams/:id"]}
+              render={(props) => <TeamList {...props} {...this.state.teams} />}
+            />
             <Route
               exact
               path={["/teams", "/teams/:id"]}
               component={TeamMember}
             />
-            </section>
-          <section className="main-calendar">
-            <Route exact path="/calendar" component={CalendarView} />
+            <Route
+              exact
+              path="/add-team-member"
+              render={(props) => <AddTeamMember {...props} {...this.state} />}
+            />
           </section>
+          <section className="main-calendar">
+            <Route
+              exact
+              path="/calendar"
+              render={(props) => <CalendarView {...props} {...this.state} />}
+            />
+          </section>
+
           <Route exact path="/" component={Features} />
-          <Route path="/" component={Footers} />
+          <Route path="/" component={Footer} />
         </main>
       </div>
-    )
+    );
   }
 }
-
-
-export default App;

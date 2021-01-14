@@ -1,72 +1,78 @@
 import React from "react";
+import config from "../../Config/Config";
+import TokenService from "../../Services/TokenService";
 
-class AddEvent extends React.Component {
-    state = {
-        events: [
-            {
-                id: [],
-                description: [],
-                location: [],
-                date: [],
-                user_id: [],
-                time_start: [],
-                time_end: [],
-                name: [],
+export default class AddEvent extends React.Component {
+  handleAddEvent = (e) => {
+    e.preventDefault();
+    const title = e.target.title.value;
+    const time_start = e.target.time_start.value;
+    const time_end = e.target.time_end.value;
+    const location = e.target.location.value;
+    const description = e.target.description.value;
+    const date = e.target.date.value;
+    const team_id = this.props.teams[0];
 
-            }
-        ],
-    }
-    handleAddCal = (event) => {
-        event.preventDefault();
-        let newEvent = {
-            id: event.target.id.value,
-            discription: event.target.discription.value,
-            location: event.target.location.value,
-            date: event.target.date.value,
-            user_id: event.target.user_id.value,
-            time_start: event.target.time_start.value,
-            time_end: event.target.time_end.value,
-            name: event.target.name.value,
+    fetch(`${config.REACT_APP_API_BASE_URL}/events`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${TokenService.getAuthToken()}`,
+      },
+      body: JSON.stringify({
+        title: title,
+        time_start: time_start,
+        time_end: time_end,
+        location: location,
+        description: description,
+        date: date,
+        team_id: team_id,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.status);
         }
-        let currentEvents = this.state.events;
-        currentEvents.push(newEvent);
-        this.setState({
-            newEvent: currentEvents
-        });
+        return res.json();
+      })
+      .then((event) => {
+        this.props.createEvent(event);
+        this.props.history.push("/events");
+      });
+  };
 
-        this.props.history.push("/events")
+  handleCancel = () => {
+    this.props.history.goBack("/events");
+  };
 
-    }
-
-    handleCancel = () => {
-        this.props.history.goBack("/events");
-    };
-    render() {
-        return (
-            <>
-                <div>
-                    <h2>Add a New Event</h2>
-                    <form
-                        className="add-event-form">
-                        <label>What time is your event?</label>
-                        <p>My event starts at:</p>
-                        <input type="time" name="start_time" />
-                        <p>My event ends at:</p>
-                        <input type="time" name="end_time" />
-                        <label>Add an address:</label>
-                        <input type="text" name="location" />
-                        <label>Add a description:</label>
-                        <input type="text" name="description" />
-                    </form>
-                    <button type="submit" onClick={this.handleAddCal}>Add to Calendar</button>
-                </div>
-                <div>
-                    <button onClick={this.handleCancel}>Cancel</button>
-                </div>
-            </>
-        )
-    }
+  render() {
+    return (
+      <>
+        <div className="add-event-view">
+          <h2>Add a New Event</h2>
+          <form
+            onSubmit={this.handleAddEvent}
+            className="add-event-form"
+          >
+            <label>Name your event:</label>
+            <input type="text" name="title" />
+            <label>Your event starts at:</label>
+            <input type="time" name="time_start" />
+            <label>Your event ends at:</label>
+            <input type="time" name="time_end" />
+            <label>Pick a date:</label>
+            <input type="date" name="date" />
+            <label>Add an address:</label>
+            <input type="text" name="location" />
+            <label>Add a description:</label>
+            <input type="text" name="description" />
+            <button typ="submit">Add Event</button>
+          </form>
+          <div>
+            <button onClick={this.handleCancel}>Cancel</button>
+          </div>
+        </div>
+      </>
+    );
+  }
 }
-
-
-export default AddEvent;
