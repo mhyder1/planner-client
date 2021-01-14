@@ -51,9 +51,11 @@ export default class AddEvent extends React.Component {
         <div className="add-event-view">
           <h2>Add a New Event</h2>
           <form
-            onSubmit={this.handleAddEvent}
+            onSubmit={(e) => this.handleAddEvent(e)}
             className="add-event-form"
           >
+            <label>Select Team id</label>
+            <input type="number" min="1" max="100"/>
             <label>Name your event:</label>
             <input type="text" name="title" />
             <label>Your event starts at:</label>

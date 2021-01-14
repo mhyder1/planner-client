@@ -14,6 +14,7 @@ export default class Register extends React.Component {
       password,
       email,
       confirmPassword,
+      user_type,
     } = e.target;
     this.setState({ error: null });
     AuthAPIService.postUser({
@@ -22,6 +23,7 @@ export default class Register extends React.Component {
       password: password.value,
       email: email.value,
       confirmPassword: confirmPassword.value,
+      user_type: user_type.value
     })
       .then((user) => {
         this.props.history.push("/login");
@@ -50,10 +52,7 @@ export default class Register extends React.Component {
           <label>Confirm Password (required)</label>
           <input type="password" name="confirmPassword" required />
           <label>User Type(required)</label>
-          <select className="user-type">
-              <option value="admin">Admin</option>
-              <option value="user">User</option>
-          </select>
+          <input type="user_type" name="user_type" required/>
           <button type="submit">Register</button>
         </form>
       </div>

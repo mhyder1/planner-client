@@ -12,22 +12,26 @@ import Footer from "./Components/Footer/Footer";
 import ProfilePic from "./Components/ProfilePic/ProfilePic";
 import ProfileContactInfo from "./Components/ProfileContactInfo/ProfileContactInfo";
 import EventsList from "./Components/EventsList/EventsList";
-import TeamEventsList from "./Components/TeamEventList/TeamEventList"
+import TeamEventsList from "./Components/TeamEventsList/TeamEventsList";
 import Event from "./Components/Event/Event";
+import EditEvent from "./Components/EditEvent/EditEvent";
 import TeamList from "./Components/TeamList/TeamList";
 import TeamMember from "./Components/TeamMember/TeamMember";
+import AddTeamMember from "./Components/AddTeamMember/AddTeamMember";
+import InviteLandingPage from "./Components/InviteLandingPage/InviteLandingPage";
 import CalendarView from "./Components/Calendar/Calendar";
 import AddEvent from "./Components/AddEvent/AddEvent";
 import TokenService from "./Services/TokenService";
-import AddTeamMember from "./Components/AddTeamMember/AddTeamMember"
-import EditEvent from "./Components/EditEvent/EditEvent";
-
 
 export default class App extends React.Component {
   state = {
     isLoggedIn: false,
     events: [],
-    user: { user_id: "" },
+    user: {
+      user_id: "",
+      email: "",
+      firstName: "",
+    },
     teams: [],
     teamMembers: [],
   };
@@ -54,27 +58,37 @@ export default class App extends React.Component {
     });
   };
 
+  setUserTeamMembers = (tmembers) => {
+    this.setState({
+      teamMembers: tmembers,
+    });
+  };
+
   createEvent = (event) => {
     this.setState({
       events: [...this.state.events, event],
     });
   };
 
-  setUserTeams = (teams) => {
+  updateEvent = (updatedEvent) => {
     this.setState({
-      teams: teams,
+      events: this.state.events.map((e) =>
+        e.id !== updatedEvent.id ? e : updatedEvent
+      ),
     });
   };
 
+  // Gets events created by you
   setUserEvents = (events) => {
     this.setState({
       events: events,
     });
   };
 
-  setUserTeamMembers = (tmembers) => {
+  // Gets events for teams you're a team member of
+  setTeamMemberEvents = (events) => {
     this.setState({
-      teamMembers: tmembers,
+      events: [...this.state.events, ...events],
     });
   };
 
@@ -89,19 +103,6 @@ export default class App extends React.Component {
     this.setState({
       events: [],
       team: [],
-    });
-  };
-  updateEvent = (updatedEvent) => {
-    this.setState({
-      events: this.state.events.map((e) =>
-        e.id !== updatedEvent.id ? e : updatedEvent
-      ),
-    });
-  };
-  // Gets events for teams you're a team member of
-  setTeamMemberEvents = (events) => {
-    this.setState({
-      events: [...this.state.events, ...events],
     });
   };
 
@@ -137,9 +138,9 @@ export default class App extends React.Component {
                   {...props}
                   {...this.state}
                   setUserEvents={this.setUserEvents}
+                  setTeamMemberEvents={this.setTeamMemberEvents}
                   setUser={this.setUser}
                   setUserTeams={this.setUserTeams}
-                  setTeamMemberEvents={this.setTeamMemberEvents}
                   setUserTeamMembers={this.setUserTeamMembers}
                 />
               )}
@@ -153,13 +154,13 @@ export default class App extends React.Component {
             />
             <Route
               exact
-              path={["/events", "/events/:id"]}
-              render={(props) => <Event {...props} {...this.state} />}
+              path={["/tm-events", "/tm-events/:id"]}
+              render={(props) => <TeamEventsList {...props} {...this.state} />}
             />
             <Route
               exact
-              path={["/tm-events", "/tm-events/:id"]}
-              render={(props) => <TeamEventsList {...props} {...this.state} />}
+              path={["/events", "/events/:id", "/tm-events", "/tm-events/:id"]}
+              render={(props) => <Event {...props} {...this.state} />}
             />
             <Route
               exact
@@ -183,18 +184,23 @@ export default class App extends React.Component {
           <section className="main-team">
             <Route
               exact
-              path={["/teams", "/teams/:id"]}
-              render={(props) => <TeamList {...props} {...this.state.teams} />}
+              path={["/teams", "/teams/team-member/:id"]}
+              render={(props) => <TeamList {...props} {...this.state} />}
             />
             <Route
               exact
-              path={["/teams", "/teams/:id"]}
-              component={TeamMember}
+              path={["/teams", "/teams/team-member/:id"]}
+              render={(props) => <TeamMember {...props} {...this.state} />}
             />
             <Route
               exact
               path="/add-team-member"
               render={(props) => <AddTeamMember {...props} {...this.state} />}
+            />
+            <Route
+              exact
+              path={["/invite-page", "/invite-page/:id"]}
+              component={InviteLandingPage}
             />
           </section>
           <section className="main-calendar">

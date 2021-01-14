@@ -17,7 +17,7 @@ export default class Nav extends React.Component {
             <div className="nav-home">
               <div className="nav-logo">
                 <h1>
-                  <Link to="/">Bookly</Link>
+                  <Link to="/">Event Planner</Link>
                 </h1>
               </div>
               <div className="nav-links">
@@ -35,7 +35,7 @@ export default class Nav extends React.Component {
         ) : (
           <div id="main-menu" className="dashboard-menu">
             <h1>
-              <Link to="/dashboard">Bookly</Link>
+              <Link to="/dashboard">Event Planner</Link>
             </h1>
             <ul>
               <li>

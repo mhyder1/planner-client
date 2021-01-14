@@ -3,6 +3,7 @@ import TokenService from './TokenService'
 
 const AuthAPIService = {
   postUser(user) {
+    console.log(user)
     return fetch(`${config.REACT_APP_API_BASE_URL}/users`, {
       method: 'POST',
       headers: {
@@ -15,11 +16,12 @@ const AuthAPIService = {
          ? res.json().then(e => Promise.reject(e))
          : res.json()
     )
-    .then(res => 
-      (!res.ok) 
-      ? res.json().then(e => Promise.reject(e))
-      : res.json()
-    )
+    //  .then(res => 
+    //   console.log(res)
+    //   //  (!res.ok) 
+    //   //  ? res.json().then(e => Promise.reject(e))
+    //   //  : res.json()
+    //  )
 }, 
 postLogin({email, password}) {
   return fetch(`${config.REACT_APP_API_BASE_URL}/auth/login`, {
