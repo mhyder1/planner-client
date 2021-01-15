@@ -22,6 +22,7 @@ import InviteLandingPage from "./Components/InviteLandingPage/InviteLandingPage"
 import CalendarView from "./Components/Calendar/Calendar";
 import AddEvent from "./Components/AddEvent/AddEvent";
 import TokenService from "./Services/TokenService";
+import config from  "./Config/Config"
 
 export default class App extends React.Component {
   state = {
@@ -92,9 +93,12 @@ export default class App extends React.Component {
     });
   };
 
-  // deleteEvent = (eventId) => {
-  //   const newEvents = this.events.filter(()
-  // }
+   deleteEvent = (eventId) => {
+     const newEvents = this.state.events.filter((event) => event.id !== eventId);
+     this.setState({
+       events:newEvents,
+     })
+   }
 
   handleLogin = () => {
     this.setState({
@@ -109,6 +113,12 @@ export default class App extends React.Component {
       team: [],
     });
   };
+
+  componentDidMount() {
+    fetch(`${config.REACT_APP_API_BASE_URL}/events`)
+    .then((res) => res.json())
+    .then((events) => this.setState({events}));
+  }
 
   render() {
     return (
@@ -164,7 +174,11 @@ export default class App extends React.Component {
             <Route
               exact
               path={["/events", "/events/:id", "/tm-events", "/tm-events/:id"]}
-              render={(props) => <Event {...props} {...this.state} />}
+              render={(props) => 
+              <Event 
+              {...props} 
+              deleteEvent={this.deleteEvent}
+              {...this.state} />}
             />
             <Route
               exact

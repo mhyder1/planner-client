@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import config from "../../Config/Config";
+//import config from "../../Config/Config";
 import Modal from "../Modal/Modal";
 
 export default class EventsList extends React.Component {
@@ -20,15 +20,16 @@ export default class EventsList extends React.Component {
     });
   };
 
+
   render() {
-    const teamId = this.props.teams[0];
-    const eventsList = this.props.events;
-    const myEvents = eventsList.filter((e) => e.team_id === teamId);
-    const event = this.props.match.params.id
-      ? this.props.events.find(
-          (e) => e.id === Number(this.props.match.params.id)
-        )
-      : "";
+    //const teamId = this.props.teams[0];
+    //const eventsList = this.props.events;
+    //const myEvents = eventsList.filter((e) => e.team_id === teamId);
+    // const event = this.props.match.params.id
+    //   ? this.props.events.find(
+    //       (e) => e.id === Number(this.props.match.params.id)
+    //     )
+    //   : "";
 
     return (
       <aside
@@ -41,23 +42,28 @@ export default class EventsList extends React.Component {
         <h2>My Events</h2>
         <p>(events you created)</p>
         <ul>
-          {myEvents.map((events, i) => (
+          {this.props.events.filter((event) => event.team_id === this.props.team && this.props.match.params.id).map((event, i) => (
             <li key={i}>
               <div className="events-desktop">
-                <Link to={`/events/${events.id}`}>
-                  <h3>{events.title}</h3>
+                <Link to={`/events/${event.id}`}>
+                  <h3>{event.title}</h3>
                 </Link>
               </div>
               <div className="view-modal">
                 <Modal
-                  event={event}
+                  event={this.props.match.params.id 
+                    ? this.props.events.find(
+                      (event) => event.id === Number(this.props.match.params.id)
+                      )
+                      : ""
+                      }
                   {...this.props}
                   show={this.state.show}
                   handleClose={this.hideModal}
                 />
                 <button onClick={this.showModal} className="view-modal-button">
-                  <Link to={`/events/${events.id}`}>
-                    <h2>{events.name}</h2>
+                  <Link to={`/events/${event.id}`}>
+                    <h2>{event.name}</h2>
                   </Link>
                 </button>
               </div>

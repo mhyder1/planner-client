@@ -64,13 +64,14 @@ export default class EditEvent extends React.Component {
       description,
       date,
     };
-    fetch(`${config.REACT_APP_API_BASE_URL}/events/${this.state.id}`, {
+    fetch(`${config.REACT_APP_API_BASE_URL}/events/${this.props.match.params.id}`, {
       method: "PATCH",
+      body: JSON.stringify(updateEvent),
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${TokenService.getAuthToken()}`,
       },
-      body: JSON.stringify(updateEvent),
+      
     }).then((updatedEvent) => {
       this.resetFields();
       this.props.updateEvent(updateEvent);

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import DummyStore from "../../DummyStore/DummyStore";
+// import DummyStore from "../../DummyStore/DummyStore";
 
 function Modal(props) {
     const showHideClassName = props.show
@@ -10,7 +10,7 @@ function Modal(props) {
 
     function handleInvites() {
         alert(
-            `Email invites were sent to ${DummyStore.team[0].first_name} and ${DummyStore.team[1].first_name}!`
+            `Email invites were sent to ${props.team[0].first_name} and ${props.team[1].first_name}!`
         );
     }
 

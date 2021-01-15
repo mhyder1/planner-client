@@ -4,11 +4,11 @@ import Config from "../../Config/Config"
 
 export default class TeamEventsList extends React.Component {
   render() {
-    const teamId = this.props.teams[0].id;
-    const eventsList = this.props.events;
-    const teamEventsList = this.props.events.filter(
-      (e) => e.team_id !== teamId
-    );
+    const teamId = this.props.teams;
+    //const eventsList = this.props.events;
+    //const teamEventsList = this.props.events.filter(
+     // (e) => e.team_id !== teamId
+    //);
 
     return (
       <aside

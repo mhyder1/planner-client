@@ -1,20 +1,19 @@
 import React from "react";
-import DummyStore from "../../DummyStore/DummyStore";
+//import DummyStore from "../../DummyStore/DummyStore";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
 class CalendarView extends React.Component {
-    state = {
-        events: DummyStore.events,
-    };
+
 
     render() {
+        // https://dev.to/lberge17/fullcalendar-with-react-3hnl
         return (
             <FullCalendar
                 events={[
-                    { title: this.state.events[0].name, date: this.state.events[0].date },
-                    { title: this.state.events[1].name, date: this.state.events[1].date },
-                    { title: this.state.events[2].name, date: this.state.events[2].date },
+                    { title: this.props.events[0].id.name, date: this.props.events[0].date },
+                    { title: this.props.events[1].id.name, date: this.props.events[1].date },
+                    { title: this.props.events[2].id.name, date: this.props.events[2].date },
                     
                 ]}
                 plugins={[dayGridPlugin]}
