@@ -92,6 +92,10 @@ export default class App extends React.Component {
     });
   };
 
+  // deleteEvent = (eventId) => {
+  //   const newEvents = this.events.filter(()
+  // }
+
   handleLogin = () => {
     this.setState({
       isLoggedIn: true,

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Config from "../../Config/Config"
 
 export default class TeamEventsList extends React.Component {
   render() {

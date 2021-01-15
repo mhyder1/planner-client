@@ -2,6 +2,7 @@ import React from "react";
 import DummyStore from "../../DummyStore/DummyStore";
 import { Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
+import config from "../../Config/Config"
 
 export default class TeamList extends React.Component {
     state = {

@@ -3,6 +3,9 @@ import config from "../../Config/Config";
 import TokenService from "../../Services/TokenService";
 
 export default class AddEvent extends React.Component {
+  state = {
+    teams: []
+  }
   handleAddEvent = (e) => {
     e.preventDefault();
     const title = e.target.title.value;
@@ -11,8 +14,8 @@ export default class AddEvent extends React.Component {
     const location = e.target.location.value;
     const description = e.target.description.value;
     const date = e.target.date.value;
-    const team_id = this.props.teams[0];
-
+    const team_id = e.target.teams.value
+    console.log(team_id)
     fetch(`${config.REACT_APP_API_BASE_URL}/events`, {
       method: "POST",
       headers: {
@@ -41,6 +44,14 @@ export default class AddEvent extends React.Component {
       });
   };
 
+  componentDidMount() {
+    fetch(`${config.REACT_APP_API_BASE_URL}/teams`)
+    .then(res => res.json())
+    .then(teams => {
+      this.setState({teams})
+    })
+  }
+
   handleCancel = () => {
     this.props.history.goBack("/events");
   };
@@ -54,8 +65,14 @@ export default class AddEvent extends React.Component {
             onSubmit={(e) => this.handleAddEvent(e)}
             className="add-event-form"
           >
-            <label>Select Team id</label>
-            <input type="number" min="1" max="100"/>
+            <label htmlFor='teams'>Teams</label>
+            <select id="teams" name="teams">
+              {
+                this.state.teams.length && this.state.teams.map(team => (
+                  <option value={team.id} key={team.id}>{team.title}</option>
+                ))
+              }
+            </select>
             <label>Name your event:</label>
             <input type="text" name="title" />
             <label>Your event starts at:</label>

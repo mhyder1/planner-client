@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import config from "../../Config/Config";
 import TokenService from "../../Services/TokenService";
 
-import DummyStore from "../../DummyStore/DummyStore";
+// import DummyStore from "../../DummyStore/DummyStore";
 
 export default class Event extends React.Component {
   handleInvites = () => {
     alert(
-      `Email invites were sent to ${DummyStore.team[0].first_name} and ${DummyStore.team[1].first_name}!`
+      `Email invites were sent to ${this.props.team[0].first_name} and ${this.props.team[1].first_name}!`
     );
   };
 
@@ -36,21 +36,17 @@ export default class Event extends React.Component {
   };
 
   render() {
-    const event = this.props.events;
-    const teamId = this.props.teams[0];
-
-    return (
+    return(
       <section className="event-view">
         <div className="event-view-selected">
-          {event.map((e, i) =>
-            e.id === Number(this.props.match.params.id) ? (
+          {this.props.events.map((event, i) => 
               <React.Fragment key={i}>
-                <h2 key={i}>{e.title}</h2>
-                <h3>{e.location}</h3>
-                <p>{e.description}</p>
+                <h2 key={i}>{event.title}</h2>
+                <h3>{event.location}</h3>
+                <p>{event.description}</p>
                 <div
                   className={
-                    this.props.location.pathname === `/events/${e.id}`
+                    this.props.location.pathname === `/events/${event.id}`
                       ? "my-events"
                       : "tm-events"
                   }
@@ -61,7 +57,7 @@ export default class Event extends React.Component {
                     </button>
                   </div>
                   <div>
-                    <Link to={`/edit-event/${e.id}`}>
+                    <Link to={`/edit-event/${event.id}`}>
                       <button>Edit Event</button>
                     </Link>
                   </div>
@@ -78,13 +74,64 @@ export default class Event extends React.Component {
                     </button>
                   </div>
                 </div>
+
+
               </React.Fragment>
-            ) : (
-              ""
-            )
           )}
+
         </div>
+
       </section>
-    );
-  }
+    )
+
+  } 
 }
+    //console.log(this.props.events)
+
+    //const teamId = this.props.teams[0];
+    //console.log(this.props.events)
+
+    
+        
+
+          //   e.id === Number(this.props.match.params.id) ? (
+          //     <React.Fragment key={i}>
+          //       <h2 key={i}>{e.title}</h2>
+          //       <h3>{e.location}</h3>
+          //       <p>{e.description}</p>
+          //       <div
+          //         className={
+          //           this.props.location.pathname === `/events/${e.id}`
+          //             ? "my-events"
+          //             : "tm-events"
+          //         }
+          //       >
+          //         <div>
+          //           <button onClick={this.handleInvites}>
+          //             + Invite Team Members
+          //           </button>
+          //         </div>
+          //         <div>
+          //           <Link to={`/edit-event/${e.id}`}>
+          //             <button>Edit Event</button>
+          //           </Link>
+          //         </div>
+          //         <div>
+          //           <button
+          //             onClick={(e) =>
+          //               this.handleDelete(
+          //                 Number(this.props.match.params.id),
+          //                 this.props.deleteEvent
+          //               )
+          //             }
+          //           >
+          //             Delete Event
+          //           </button>
+          //         </div>
+          //       </div>
+          //     </React.Fragment>
+          //    ) : (
+          //     ""
+          //    )
+          // )}
+       
