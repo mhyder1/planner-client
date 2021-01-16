@@ -59,9 +59,10 @@ export default class Nav extends React.Component {
 
               <li>
                 <h2>
-                  <Link to="/teams">Team</Link>
+                  <Link to="/teams">Teams</Link>
                 </h2>
               </li>
+
               <li>
                 <h2>
                   <button onClick={(e) => this.handleLogout(e)}>Log Out</button>

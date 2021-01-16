@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import config from "../../Config/Config";
 import TokenService from "../../Services/TokenService";
 
-import DummyStore from "../../DummyStore/DummyStore";
+//import DummyStore from "../../DummyStore/DummyStore";
 
 export default class Event extends React.Component {
    handleInvites = () => {
      alert(
-       `Email invites were sent to ${DummyStore.team[0].first_name} and ${DummyStore.team[1].first_name}!`
+       `Email invites were sent to ${this.props.match.id 
+        ? this.props.team.find((
+          (team) => team.id === Number(this.props.match.params.id)
+        )) : ""
+        && this.props.team.first_name} and ${this.props.team && this.props.team.first_name}!`
     );
    };
 
@@ -30,7 +34,7 @@ export default class Event extends React.Component {
     return(
       <section className="event-view">
         <div className="event-view-selected">
-          {this.props.events.map((event, i) => 
+          {this.props.events && this.props.events.map((event, i) => 
               <React.Fragment key={i}>
                 <h2 key={i}>{event.title}</h2>
                 <h3>{event.location}</h3>

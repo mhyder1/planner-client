@@ -1,14 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Config from "../../Config/Config"
+//import Config from "../../Config/Config"
 
 export default class TeamEventsList extends React.Component {
   render() {
-    const teamId = this.props.teams;
-    //const eventsList = this.props.events;
-    //const teamEventsList = this.props.events.filter(
-     // (e) => e.team_id !== teamId
-    //);
+    console.log(this.props.teams)
+      const teamId = this.props.teams;
+      const eventsList = this.props.events;
+      const teamEventsList = this.props.events.filter(
+       (e) => e.team_id !== teamId
+     );
 
     return (
       <aside
@@ -21,11 +22,11 @@ export default class TeamEventsList extends React.Component {
         <h2>Team Events</h2>
         <p>(events where you're a team member)</p>
         <ul>
-          {teamEventsList.map((events, i) => (
+          {teamEventsList && teamEventsList.map((event, i) => (
             <li key={i}>
               <div className="events-desktop">
-                <Link to={`/tm-events/${events.id}`}>
-                  <h3>{events.title}</h3>
+                <Link to={`/tm-events/${event.id}`}>
+                  <h3>{event.title}</h3>
                 </Link>
               </div>
             </li>

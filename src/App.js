@@ -10,19 +10,18 @@ import Header from "./Components/Header/Header";
 import Features from "./Components/Features/Features";
 import Footer from "./Components/Footer/Footer";
 import ProfilePic from "./Components/ProfilePic/ProfilePic";
-import ProfileContactInfo from "./Components/ProfileContactInfo/ProfileContactInfo";
 import EventsList from "./Components/EventsList/EventsList";
 import TeamEventsList from "./Components/TeamEventsList/TeamEventsList";
 import Event from "./Components/Event/Event";
 import EditEvent from "./Components/EditEvent/EditEvent";
 import TeamList from "./Components/TeamList/TeamList";
-import TeamMember from "./Components/TeamMember/TeamMember";
 import AddTeamMember from "./Components/AddTeamMember/AddTeamMember";
-import InviteLandingPage from "./Components/InviteLandingPage/InviteLandingPage";
 import CalendarView from "./Components/Calendar/Calendar";
 import AddEvent from "./Components/AddEvent/AddEvent";
 import TokenService from "./Services/TokenService";
 import config from  "./Config/Config"
+import AddTeam from "./Components/AddTeam/AddTeam"
+import ProfileContactInfo from "./Components/ProfileContactinfo/ProfileContactInfo"
 
 export default class App extends React.Component {
   state = {
@@ -144,21 +143,21 @@ export default class App extends React.Component {
         <main>
           <section className="main-dashboard">
             <Route exact path="/dashboard" component={ProfilePic} />
-            <Route
+             <Route
               exact
               path="/dashboard"
               render={(props) => (
                 <ProfileContactInfo
-                  {...props}
+                   {...props}
                   {...this.state}
-                  setUserEvents={this.setUserEvents}
-                  setTeamMemberEvents={this.setTeamMemberEvents}
-                  setUser={this.setUser}
+                   setUserEvents={this.setUserEvents}
+                   setTeamMemberEvents={this.setTeamMemberEvents}
+                    setUser={this.setUser}
                   setUserTeams={this.setUserTeams}
                   setUserTeamMembers={this.setUserTeamMembers}
-                />
-              )}
-            />
+               />
+             )}
+            /> 
           </section>
           <section className="main-events">
             <Route
@@ -203,23 +202,33 @@ export default class App extends React.Component {
             <Route
               exact
               path={["/teams", "/teams/team-member/:id"]}
-              render={(props) => <TeamList {...props} {...this.state} />}
+              render={(props) => <TeamList {...props} 
+              // createTeam ={this.createTeam}
+              {...this.state} />}
             />
+            {/* <Route 
+               exact
+               path={["/teams", "/teams/teams-member/:id"]}
+               render={(props) => <AddTeam {...props} {...this.state} />}
+
+             /> */}
             <Route
               exact
-              path={["/teams", "/teams/team-member/:id"]}
-              render={(props) => <TeamMember {...props} {...this.state} />}
+              path={["/add-team"]}
+              render={(props) => <AddTeam {...props} 
+              createTeam={this.createTeam}
+              {...this.state} />}
             />
             <Route
               exact
               path="/add-team-member"
               render={(props) => <AddTeamMember {...props} {...this.state} />}
             />
-            <Route
+            {/* <Route
               exact
               path={["/invite-page", "/invite-page/:id"]}
               component={InviteLandingPage}
-            />
+            /> */}
           </section>
           <section className="main-calendar">
             <Route

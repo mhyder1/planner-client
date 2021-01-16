@@ -15,7 +15,7 @@ export default class AddTeamMember extends React.Component {
   componentDidMount() {
     this.setState({
       senderName: this.props.user.firstName,
-      sender: "thanki.monika2@gmail.com",
+      sender: "thanki.monika@gmail.com",
       // sender: this.props.user.email,
     });
   }
@@ -24,7 +24,7 @@ export default class AddTeamMember extends React.Component {
   handleAddTeamMember = (e) => {
     e.preventDefault();
     // const recipient = this.state.recipient;
-    const recipient = "thanki.monika2@gmail.com";
+    const recipient = "thanki.monika@gmail.com";
     const sender = this.state.sender;
     const name = this.state.senderName;
     const email = { recipient, sender, name };
@@ -35,11 +35,12 @@ export default class AddTeamMember extends React.Component {
 
     fetch(`${config.REACT_APP_API_BASE_URL}/emails`, {
       method: "POST",
+      body: JSON.stringify(email),
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${TokenService.getAuthToken()}`,
       },
-      body: JSON.stringify(email),
+      
     });
   };
 

@@ -11,9 +11,9 @@ class CalendarView extends React.Component {
         return (
             <FullCalendar
                 events={[
-                    { title: this.props.events[0].id.name, date: this.props.events[0].date },
-                    { title: this.props.events[1].id.name, date: this.props.events[1].date },
-                    { title: this.props.events[2].id.name, date: this.props.events[2].date },
+                    { title: this.props.events[0] && this.props.events.name, date: this.props.events[0] && this.props.events.date },
+                    { title: this.props.events[1] && this.props.events.name, date: this.props.events[1] && this.props.events.date },
+                    { title: this.props.events[2] && this.props.events.name, date: this.props.events[2] && this.props.events.date },
                     
                 ]}
                 plugins={[dayGridPlugin]}

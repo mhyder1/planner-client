@@ -42,7 +42,7 @@ export default class EventsList extends React.Component {
         <h2>My Events</h2>
         <p>(events you created)</p>
         <ul>
-          {this.props.events.filter((event) => event.team_id === this.props.team && this.props.match.params.id).map((event, i) => (
+          {this.props.events.filter((event) => event.team_id === this.props.team)&& this.props.events.map((event, i) => (
             <li key={i}>
               <div className="events-desktop">
                 <Link to={`/events/${event.id}`}>

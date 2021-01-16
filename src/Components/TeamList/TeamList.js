@@ -2,7 +2,7 @@ import React from "react";
 import DummyStore from "../../DummyStore/DummyStore";
 import { Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
-import config from "../../Config/Config"
+// import config from "../../Config/Config"
 
 export default class TeamList extends React.Component {
     state = {
@@ -21,6 +21,7 @@ export default class TeamList extends React.Component {
         });
     };
     render() {
+        console.log(this.props.teams)
         // const teamList = this.DummyStore.team;
         // const teamMember = this.props.match.params.id
         //     ? this.DummyStore.team.find((t) => t.id === Number(this.props.match.params.id))
@@ -28,7 +29,7 @@ export default class TeamList extends React.Component {
         return (
             <aside className="team-sidebar">
                 <ul>
-                    {this.props.team && this.props.team.map((team, i) => (
+                    {this.props.teams && this.props.teams.map((team, i) => (
                         <li key={i}>
                             <div className="team-desktop">
                                 <Link to={`/teams/${team.id}`}>
