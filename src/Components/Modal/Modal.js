@@ -8,11 +8,6 @@ function Modal(props) {
         : "modal display-none";
     const id = Number(props.match.params.id);
 
-    function handleInvites() {
-        alert(
-            `Email invites were sent to ${props.team && props.team.first_name} and ${props.team && props.team.first_name}!`
-        );
-    }
 
     return (
         <div className={showHideClassName}>
@@ -23,9 +18,7 @@ function Modal(props) {
                         <h3>{`${props.event && props.events.time_start} ${props.event && props.event.time_end}`}</h3>
                         <h3>{props.event && props.event.location}</h3>
                         <h3>{props.event && props.event.description}</h3>
-                        <div>
-                            <button onClick={handleInvites}>+ Invite Team Members</button>
-                        </div>
+                
                         <div>
                             <Link to="/add-event">
                                 <button>+ Event</button>
@@ -51,7 +44,7 @@ function Modal(props) {
                     )}{" "}
                 <button className="close-button" onClick={props.handleClose}>
                     Close
-        </button>
+                </button>
             </section>
         </div>
     );

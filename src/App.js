@@ -22,6 +22,7 @@ import TokenService from "./Services/TokenService";
 import config from  "./Config/Config"
 import AddTeam from "./Components/AddTeam/AddTeam"
 import ProfileContactInfo from "./Components/ProfileContactinfo/ProfileContactInfo"
+import TeamMember from "./Components/TeamMember/TeamMember";
 
 export default class App extends React.Component {
   state = {
@@ -206,12 +207,11 @@ export default class App extends React.Component {
               // createTeam ={this.createTeam}
               {...this.state} />}
             />
-            {/* <Route 
-               exact
-               path={["/teams", "/teams/teams-member/:id"]}
-               render={(props) => <AddTeam {...props} {...this.state} />}
-
-             /> */}
+            <Route
+              exact
+              path={["/teams", "/teams/team-member/:id"]}
+              render={(props) => <TeamMember {...props} {...this.state} />}
+            />
             <Route
               exact
               path={["/add-team"]}
