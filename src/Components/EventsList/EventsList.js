@@ -30,14 +30,15 @@ export default class EventsList extends React.Component {
     //       (e) => e.id === Number(this.props.match.params.id)
     //     )
     //   : "";
-
+    console.log(this.props.match)
     return (
       <aside
-        className={
-          this.props.match.url === "/add-event"
-            ? "event-sidebar-hidden"
-            : "event-sidebar"
-        }
+        className="event-sidebar"
+        // {
+        //   this.props.match.url === "/add-event"
+        //     ? "event-sidebar-hidden"
+        //     : "event-sidebar"
+        // }
       >
         <h2>My Events</h2>
         <p>(events you created)</p>
