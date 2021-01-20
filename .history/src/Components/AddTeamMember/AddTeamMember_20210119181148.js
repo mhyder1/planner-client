@@ -6,68 +6,33 @@ import TokenService from "../../Services/TokenService";
 export default class AddTeamMember extends React.Component {
 
   handleAddTeamMember = (e) => {
-    e.preventDefault();
-    const { user_id } = TokenService.readJwtToken()
-
-    const member = {
-      first_name: e.target.first_name.value,
-      last_name: e.target.last_name.value,
-      phone_number: e.target.phone_number.value,
-      user_id,
-      team_id: parseInt(e.target.teams.value)
-    }
-
-    fetch(`${config.REACT_APP_API_BASE_URL}/team-members`, {
-      method: "POST",
-      headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${TokenService.getAuthToken()}`,
-      },
-      body: JSON.stringify(member)
-  })
-  .then((res) => {
-        if(!res.ok) throw new Error('error')
-        return res.json()
-     })
-     .then(member => {
-       this.props.updateTeamMembers(member)
-        this.props.history.push('/teams')
-      })
 
   }
 
   render() {
-    // console.log(this.props.team && this.props.match.id)
-    const { teams } = this.props
+    console.log(this.props.team && this.props.match.id)
     return(
       <>
         <div>
             <h2>Add Team member</h2>
               <form
-                  onSubmit={this.handleAddTeamMember}
+                  onSubmit={(e) => this.handleAddTeamMember(e)}
               >
                 <label htmlFor='teams'>Select Team</label>
                   <select id="teams" name="teams">
-                    <option value="">...</option>
-                    {
-                      teams.map(team => (
-                        <option key={team.id} value={team.id}>{team.title}</option>
-                      ))
-                    }
+                    <option></option>
                   </select>
-                  <br />
                 <label>First Name: </label>
-                <input type="text" name="first_name" require="true"/>
+                <input type="text" name="first_name" require/>
                 <br />
                 <label>Last Name:</label>
-                <input type="text" name="last_name" require="true"/>
+                <input type="text" name="last_name" require/>
                 <br />
-                {/* <label>Type in your photo URL</label>
+                <label>Type in your photo URL</label>
                 <input type="url" name="profile_image" />
-                <br /> */}
+                <br />
                 <label htmlFor="phone">Phone Number</label>
                 <input type="tel" name="phone_number" />
-                <br />
                 <button type="submit">Add Team Members</button>
               </form>
               <div>

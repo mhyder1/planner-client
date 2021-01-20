@@ -42,7 +42,6 @@ export default class AddTeam extends React.Component {
     
 
     render() {
-      // console.log(this.props)
         return(
             <>
             <div >

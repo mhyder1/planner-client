@@ -22,7 +22,6 @@ import TokenService from "./Services/TokenService";
 import config from  "./Config/Config"
 import AddTeam from "./Components/AddTeam/AddTeam"
 import ProfileContactInfo from "./Components/ProfileContactInfo/ProfileContactInfo"
-import TeamMember from "./Components/TeamMember/TeamMember";
 
 export default class App extends React.Component {
   state = {
@@ -71,18 +70,6 @@ export default class App extends React.Component {
     });
   };
 
-  updateTeams = (team) => {
-    this.setState({
-      teams: [...this.state.teams, team],
-    });
-  }
-
-  updateTeamMembers = (teamMember) => {
-    this.setState({
-      teamMembers: [...this.state.teamMembers, teamMember],
-    });
-  }
-
   updateEvent = (updatedEvent) => {
     this.setState({
       events: this.state.events.map((e) =>
@@ -127,7 +114,6 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
-    const { user_id } = TokenService.readJwtToken()
     fetch(`${config.REACT_APP_API_BASE_URL}/events`)
     .then((res) => res.json())
     .then((events) => this.setState({events}));
@@ -135,10 +121,6 @@ export default class App extends React.Component {
     fetch(`${config.REACT_APP_API_BASE_URL}/teams`)
     .then((res) => res.json())
     .then((teams) => this.setState({teams}));
-
-    fetch(`${config.REACT_APP_API_BASE_URL}/team-members/${user_id}`)
-    .then((res) => res.json())
-    .then((teamMembers) => this.setState({teamMembers}));
   }
 
   render() {
@@ -228,27 +210,23 @@ export default class App extends React.Component {
               // createTeam ={this.createTeam}
               {...this.state} />}
             />
-            <Route
-              exact
-              path={["/teams", "/teams/team-member/:id"]}
-              render={(props) => <TeamMember {...props} {...this.state} />}
-            />
+            {/* <Route 
+               exact
+               path={["/teams", "/teams/teams-member/:id"]}
+               render={(props) => <AddTeam {...props} {...this.state} />}
+
+             /> */}
             <Route
               exact
               path={["/add-team"]}
               render={(props) => <AddTeam {...props} 
               createTeam={this.createTeam}
-              updateTeams={this.updateTeams}
               {...this.state} />}
             />
             <Route
               exact
               path="/add-team-member"
-              render={(props) => <AddTeamMember 
-                {...props} 
-                {...this.state} 
-                updateTeamMembers={this.updateTeamMembers}
-              />}
+              render={(props) => <AddTeamMember {...props} {...this.state} />}
             />
             {/* <Route
               exact

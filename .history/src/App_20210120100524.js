@@ -77,12 +77,6 @@ export default class App extends React.Component {
     });
   }
 
-  updateTeamMembers = (teamMember) => {
-    this.setState({
-      teamMembers: [...this.state.teamMembers, teamMember],
-    });
-  }
-
   updateEvent = (updatedEvent) => {
     this.setState({
       events: this.state.events.map((e) =>
@@ -127,7 +121,6 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
-    const { user_id } = TokenService.readJwtToken()
     fetch(`${config.REACT_APP_API_BASE_URL}/events`)
     .then((res) => res.json())
     .then((events) => this.setState({events}));
@@ -136,7 +129,7 @@ export default class App extends React.Component {
     .then((res) => res.json())
     .then((teams) => this.setState({teams}));
 
-    fetch(`${config.REACT_APP_API_BASE_URL}/team-members/${user_id}`)
+    fetch(`${config.REACT_APP_API_BASE_URL}/team-members`)
     .then((res) => res.json())
     .then((teamMembers) => this.setState({teamMembers}));
   }
@@ -244,11 +237,7 @@ export default class App extends React.Component {
             <Route
               exact
               path="/add-team-member"
-              render={(props) => <AddTeamMember 
-                {...props} 
-                {...this.state} 
-                updateTeamMembers={this.updateTeamMembers}
-              />}
+              render={(props) => <AddTeamMember {...props} {...this.state} />}
             />
             {/* <Route
               exact

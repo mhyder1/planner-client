@@ -63,7 +63,7 @@ export default class Nav extends React.Component {
                 </h2>
               </li>
               <li>
-                <Link to="/add-team">+ Team</Link>
+                <Link to="/add-event">+ Team</Link>
               </li>
               <li>
                 <h2>

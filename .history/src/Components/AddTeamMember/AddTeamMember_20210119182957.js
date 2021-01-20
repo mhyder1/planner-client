@@ -8,7 +8,6 @@ export default class AddTeamMember extends React.Component {
   handleAddTeamMember = (e) => {
     e.preventDefault();
     const { user_id } = TokenService.readJwtToken()
-
     const member = {
       first_name: e.target.first_name.value,
       last_name: e.target.last_name.value,
@@ -25,14 +24,9 @@ export default class AddTeamMember extends React.Component {
       },
       body: JSON.stringify(member)
   })
-  .then((res) => {
-        if(!res.ok) throw new Error('error')
-        return res.json()
+  .then((member) => {
+        console.log(member)
      })
-     .then(member => {
-       this.props.updateTeamMembers(member)
-        this.props.history.push('/teams')
-      })
 
   }
 
@@ -57,10 +51,10 @@ export default class AddTeamMember extends React.Component {
                   </select>
                   <br />
                 <label>First Name: </label>
-                <input type="text" name="first_name" require="true"/>
+                <input type="text" name="first_name" require/>
                 <br />
                 <label>Last Name:</label>
-                <input type="text" name="last_name" require="true"/>
+                <input type="text" name="last_name" require/>
                 <br />
                 {/* <label>Type in your photo URL</label>
                 <input type="url" name="profile_image" />

@@ -244,11 +244,7 @@ export default class App extends React.Component {
             <Route
               exact
               path="/add-team-member"
-              render={(props) => <AddTeamMember 
-                {...props} 
-                {...this.state} 
-                updateTeamMembers={this.updateTeamMembers}
-              />}
+              render={(props) => <AddTeamMember {...props} {...this.state} />}
             />
             {/* <Route
               exact

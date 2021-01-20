@@ -9,6 +9,8 @@ export default class AddTeamMember extends React.Component {
     e.preventDefault();
     const { user_id } = TokenService.readJwtToken()
 
+    console.log(e.target.phone_number.value)
+    return
     const member = {
       first_name: e.target.first_name.value,
       last_name: e.target.last_name.value,
@@ -29,10 +31,7 @@ export default class AddTeamMember extends React.Component {
         if(!res.ok) throw new Error('error')
         return res.json()
      })
-     .then(member => {
-       this.props.updateTeamMembers(member)
-        this.props.history.push('/teams')
-      })
+     .then(member => console.log(member))
 
   }
 

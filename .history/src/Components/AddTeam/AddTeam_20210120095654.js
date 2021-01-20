@@ -26,7 +26,7 @@ export default class AddTeam extends React.Component {
                 return res.json();
               })
               .then((newTeam) => {
-                this.props.updateTeams(newTeam)
+
                 this.props.history.push("/teams");
               });
     };
@@ -42,7 +42,6 @@ export default class AddTeam extends React.Component {
     
 
     render() {
-      // console.log(this.props)
         return(
             <>
             <div >
